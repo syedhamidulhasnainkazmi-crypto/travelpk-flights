@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Travel.pk Flight Results Page
 
-## Getting Started
+A flight search results page built with Next.js 14 App Router and TypeScript for Travel.pk Pakistan flight booking platform.
 
-First, run the development server:
+## Setup
 
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+npm install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+open in browser
+http://localhost:3000/air/search?simulate=ok
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+URL States (Testing)
+State	URL
+Normal (OK)	/air/search?simulate=ok
+Empty Results	/air/search?simulate=empty
+Error	        /air/search?simulate=error
+Partial Results	/air/search?simulate=partial
+Slow Response	/air/search?simulate=slow
+Static Route	/air/flights/karachi-to-dubai
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+Features
+✅ Server/Client component boundaries with Suspense streaming
+✅ URL-driven state (shareable, back/forward navigation)
+✅ 1200-2500ms simulated API delay
+✅ 4 states: ok, empty, error, partial
+✅ PKR currency formatting with Intl.NumberFormat
+✅ Timezone-aware time display
+✅ Keyboard accessible with visible focus
+✅ Focus-trapping mobile filter dialog
+✅ 200% zoom unclipped
+✅ Static cached routes with revalidation
 
-To learn more about Next.js, take a look at the following resources:
+Technologies
+Next.js 14 App Router
+TypeScript
+Tailwind CSS
+React Hooks (useState, useEffect, useCallback, useMemo)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Decisions & Tradeoffs
 
-## Deploy on Vercel
+Server/Client Boundaries
+Search page is Server Component with Suspense
+FlightResults is Client Component for interactivity (filters, state)
+API route handles data fetching with simulated delays
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+URL as State
+All filters are driven by URL params, enabling:
+Shareable links
+Back/forward navigation
+Refresh persistence
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+Caching Strategy
+API responses are uncached (live fares require freshness)
+Static routes use revalidate: 3600 (1 hour)
+
+Error Handling
+Graceful degradation for all 4 states
+Retry mechanism preserves filters
+Partial results show banner with failed airlines
+
+Accessibility
+ARIA labels on all interactive elements
+Live regions for result counts
+Keyboard navigation with visible focus rings
+Focus trapping in mobile filter dialog
+Screen reader friendly (sr-only classes)
+
+What I'd Improve
+Add pagination for large result sets
+Real-time price tracking with WebSockets
+More filter options (departure time, duration)
+Unit tests with Jest and React Testing Library
+Internationalization (Urdu support)
+
+Performance optimization with React.memo
+
+Time Taken
+7 hours
+
+Approach
+Built with mobile-first design, accessibility as priority, and graceful error handling for all states. Focused on practical judgment over over-engineering.
